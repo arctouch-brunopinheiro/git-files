@@ -1,0 +1,9 @@
+#!/bin/sh
+ORIG_MSG_FILE="$1"
+TEMP=`mktemp /tmp/git-XXXXX`
+HEADER=`git branch | grep '^\*' | tr -d '[0-9 ]|\*' | sed 's/[-]/ /g' | sed 's/[/]/ :: /g'`
+
+STORYID=$(git branch | grep '^\*' | tr -d '[A-Za-z-/ ]|\*')
+
+(echo "[otf:$STORYID] \n\n$HEADER"; cat "$ORIG_MSG_FILE") > "$TEMP"
+cat "$TEMP" > "$ORIG_MSG_FILE"
